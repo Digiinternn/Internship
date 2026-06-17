@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiIntern | Premium Virtual Internship Platform</title>
+    <style>
+        /* Modern Color Palette & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #0f172a; /* Slate 900 (Deep/Premium Dark) */
+            --accent: #2563eb;  /* Royal Blue */
+            --secondary: #f59e0b; /* Amber Gold for highlights */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-left {
+            position: relative;
+        }
+
+        /* 3 Dots Menu Button */
+        .three-dots {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .three-dots:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .three-dots span {
+            width: 6px;
+            height: 6px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dropdown-menu a {
+            color: var(--text-dark);
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #eff6ff;
+            color: var(--accent);
+            padding-left: 25px;
+        }
+
+        .nav-left:hover .dropdown-menu {
+            display: block;
+        }
+
+        .logo h2 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: white;
+        }
+        .logo h2 span {
+            color: var(--secondary);
+        }
+
+        /* Smaller & Sleeker Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            height: 45vh; /* Reduced height as requested */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 55px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero h1 span {
+            color: var(--secondary);
+        }
+
+        .hero p {
+            font-size: 16px;
+            max-width: 650px;
+            margin-bottom: 24px;
+            color: #94a3b8;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 28px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        /* Container & Titles */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .section-title span {
+            color: var(--accent);
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
+
+        .card-content {
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Degree Label Badge */
+        .badge {
+            background-color: #e0f2fe;
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Price Badge Style */
+        .price-wrapper {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .price-badge {
+            background-color: #fef3c7;
+            color: #d97706;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .original-price {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            font-size: 13px;
+        }
+
+        .discount-tag {
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: #f1f5f9;
+        }
+        
+        .why-card {
+            border-top: 4px solid var(--secondary);
+        }
+
+        /* Features/Stats Section */
+        .stats-section {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: auto;
+        }
+        .stat-item h2 {
+            font-size: 35px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        /* FAQ Accordion Styling (Click to Expand) */
+        .faq-container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background-color: #f8fafc;
+        }
+
+        .faq-question::after {
+            content: '➔';
+            font-size: 14px;
+            color: var(--accent);
+            transition: transform 0.3s;
+        }
+
+        /* Details & Summary Hack for No-JS Accordion */
+        .faq-item details summary {
+            list-style: none;
+        }
+        .faq-item details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px 20px;
+            color: var(--text-muted);
+            font-size: 15px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
+
+        /* When open, rotate arrow */
+        .faq-item details[open] .faq-question::after {
+            transform: rotate(90deg);
+        }
+
+        /* Contact Section */
+        .contact-info {
+            text-align: center;
+            font-size: 16px;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+            border-top: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="three-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="dropdown-menu">
+                <a href="#home">Home</a>
+                <a href="#degrees">Degree Tracks</a>
+                <a href="#why-us">Why Choose Us</a>
+                <a href="#faq">FAQs</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+        <div class="logo">
+            <h2>Digi<span>Intern</span></h2>
+        </div>
+        <div style="width: 40px;"></div>
+    </nav>
+
+    <header id="home" class="hero">
+        <h1>Empower Your Future With <span>Digital Internships</span></h1>
+        <p>Gain high-demand practical industry knowledge tailored to your degree path. Work completely from home on live real-world assignment structures.</p>
+        <a href="#degrees" class="btn">View Internship Tracks</a>
+    </header>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h2>10k+</h2>
+                <p>Students Trained</p>
+            </div>
+            <div class="stat-item">
+                <h2>100%</h2>
+                <p>Online & Flexible</p>
+            </div>
+            <div class="stat-item">
+                <h2>Verified</h2>
+                <p>Certifications</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="degrees" class="container">
+        <h2 class="section-title">Internships By <span>Your Degree</span></h2>
+        <div class="grid">
+            
+            <div class="card">
+                <div class="card-content">
+                    <span class="badge">BCA / BTech / BSc CS</span>
+                    <div class="price-wrapper">
+                        <span class="price-badge">₹199</span>
+                        <span class="original-price">₹499</span>
+                        <span class="discount-tag">60% OFF</span>
+                    </div>
+                    <h3>Technical Development</h3>
+                    <p>Build real-world experience on modern stacks covering Web Development (HTML/CSS/React), Mobile App logic, and foundational programming assignments.</p>
+                </div>
+                <button class="btn" onclick="redirectToWhatsApp('Technical Development')">Apply Now</button>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span class="badge">BCom / BBA / MCom</span>
+                    <div class="price-wrapper">
+                        <span class="price-badge">₹199</span>
+                        <span class="original-price">₹499</span>
+                        <span class="discount-tag">60% OFF</span>
+                    </div>
+                    <h3>Business & Finance</h3>
+                    <p>Develop critical skills working with automated digital accounting systems, financial metrics, modern asset modules, and corporate spreadsheets.</p>
+                </div>
+                <button class="btn" onclick="redirectToWhatsApp('Business & Finance')">Apply Now</button>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span class="badge">BA / MA / BJMC</span>
+                    <div class="price-wrapper">
+                        <span class="price-badge">₹199</span>
+                        <span class="original-price">₹499</span>
+                        <span class="discount-tag">60% OFF</span>
+                    </div>
+                    <h3>Content & Creative Media</h3>
+                    <p>Master communication structures across creative copy generation, professional technical writing, fundamental media journalism, and social outreach workflows.</p>
+                </div>
+                <button class="btn" onclick="redirectToWhatsApp('Content & Creative Media')">Apply Now</button>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <span class="badge">BSc / MSc (General)</span>
+                    <div class="price-wrapper">
+                        <span class="price-badge">₹199</span>
+                        <span class="original-price">₹499</span>
+                        <span class="discount-tag">60% OFF</span>
+                    </div>
+                    <h3>Data & Research Analysis</h3>
+                    <p>Learn core procedural structures governing standard data categorization systems, experimental analytical tooling, reporting strategies, and market behavior studies.</p>
+                </div>
+                <button class="btn" onclick="redirectToWhatsApp('Data & Research Analysis')">Apply Now</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="why-us" class="why-choose-us">
+        <div class="container">
+            <h2 class="section-title">Why Choose <span>Us?</span></h2>
+            <div class="grid">
+                <div class="card why-card">
+                    <h3>Syllabus Alignment</h3>
+                    <p>Every digital internship pipeline is explicitly structured around your college degree parameters and matching knowledge goals.</p>
+                </div>
+                <div class="card why-card">
+                    <h3>Flexible Framework</h3>
+                    <p>Balance college tasks and exams effortlessly. Complete your assignments by allocating just 1 to 2 hours throughout your day.</p>
+                </div>
+                <div class="card why-card">
+                    <h3>Industry Experts</h3>
+                    <p>Receive direct coordination and oversight from active corporate professionals without outdated textbook theories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="container">
+        <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+        <div class="faq-container">
+            
+            <div class="faq-item">
+                <details>
+                    <summary class="faq-question">Q: Will I receive a physical or verified digital certificate upon completion?</summary>
+                    <div class="faq-answer">
+                        <strong>Answer:</strong> Yes, absolutely! Successfully completing your program awards you an industry-recognized and fully verifiable internship certificate to build your formal resume.
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-item">
+                <details>
+                    <summary class="faq-question">Q: What are the program enrollment fees or processing charges?</summary>
+                    <div class="faq-answer">
+                        <strong>Answer:</strong> We are currently running a limited-time promotional offer with a flat 60% discount. Enrolling in any of our premium internship tracks costs just **₹199** right now.
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-item">
+                <details>
+                    <summary class="faq-question">Q: How do I get assistance if I run into blocks during tasks?</summary>
+                    <div class="faq-answer">
+                        <strong>Answer:</strong> All students are paired into a dedicated live communication workspace managed directly by technical mentors to clear up assignment queries weekly.
+                    </div>
+                </details>
+            </div>
+
+            <div class="faq-item">
+                <details>
+                    <summary class="faq-question">Q: Can I apply for and run multiple specialization tracks simultaneously?</summary>
+                    <div class="faq-answer">
+                        <strong>Answer:</strong> We highly advise picking a single primary path per batch timeline to ensure you can fully absorb the project details and keep up with standard submissions.
+                    </div>
+                </details>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2 class="section-title">Contact <span>Us</span></h2>
+        <div class="contact-info">
+            <p>💡 Have structural questions or need additional support? Connect with our team directly:</p>
+            <p style="font-size: 18px; color: var(--accent); font-weight: 600;">Email: support@digiintern.com</p>
+            <p style="font-size: 18px; color: #16a34a; font-weight: 600;">WhatsApp Support: +91 96715 31353</p>
+            <p style="margin-top: 15px; font-size: 14px; color: var(--text-muted);">Timings: 10:00 AM - 6:00 PM (Mon-Sat)</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 DigiIntern. All Rights Reserved. Designed Specially for Students Track.</p>
+    </footer>
+
+    <script>
+        function redirectToWhatsApp(courseName) {
+            // Precise and professional message context setup in English
+            const defaultText = `Hello, I want to do the ${courseName} internship. Please share the complete enrollment details.`;
+            
+            // Standard formatting parsing safe URL components 
+            const encodedMessage = encodeURIComponent(defaultText);
+            const whatsappLink = `https://wa.me/919671531353?text=${encodedMessage}`;
+            
+            // Instantly direct the window path cleanly to WhatsApp link context
+            window.open(whatsappLink, '_blank');
+        }
+    </script>
+
+</body>
+</html>
